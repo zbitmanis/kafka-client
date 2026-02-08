@@ -11,6 +11,8 @@ permissions:
   contents: read # for checkout
 jobs:
   release:
+    outputs:
+      version: ${{ steps.export_version.outputs.version }}
     if: github.event_name == 'push'
     permissions:
       contents: write # to be able to publish a GitHub release
@@ -32,14 +34,25 @@ jobs:
       - run: |
           npx -y semantic-release@25.0.1
           VERSION=$(cat .VERSION)
-          echo "Resolved new version set by semantic-release: $VERSION"
-          echo "version=$VERSION" >> $GITHUB_OUTPUT
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.SEMANTIC_RELEASE_BOT_NPM_TOKEN }}
+      - name: Export version
+        id: export_version
+        shell: bash
+        run: |
+          if [ -n "${VERSION:-}" ]; then
+            echo "Resolved new version set by semantic-release: $VERSION"
+            VERSION="${VERSION#v}"
+            echo "version=$VERSION" >> "$GITHUB_OUTPUT"
+          else
+            echo "No version was published by semantic-release."
+            echo "version=" >> "$GITHUB_OUTPUT"
+          fi
+
   build:
     needs: release
-    if: github.event_name == 'push'
+    if: needs.release.outputs.version != ''
     permissions:
       contents: read # to be able to publish a GitHub release
       issues: write # to be able to comment on released issues
