@@ -27,7 +27,7 @@ jobs:
       - uses: actions/setup-node@6044e13b5dc448c55e2357c09f80417699197238 # v6.2.0
         with:
           node-version: lts/*
-      - run: npm clean-install
+      - run: npm install --no-package-lock
       - run: npm install --global corepack@latest
       - run: corepack npm audit signatures
       # pinned version updated automatically by Renovate.
@@ -50,6 +50,8 @@ jobs:
     name: Build new image for release 
     runs-on: ubuntu-latest
     steps:
+      - name: Build info
+
       - name: Set up Docker
         uses: docker/setup-docker-action@v4
         with:
