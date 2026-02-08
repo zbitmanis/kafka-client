@@ -51,6 +51,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build info
+        run: echo "Build triggered by event - ${{ github.event_name }} on branch - ${{ github.ref }} for version - ${{ needs.release.outputs.version }}."
 
       - name: Set up Docker
         uses: docker/setup-docker-action@v4
