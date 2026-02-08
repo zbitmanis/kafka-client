@@ -2,6 +2,23 @@
   "name": "release",
   "private": true,
   "devDependencies": {
-    "semantic-release": "25.0.1"
-  }
+    "semantic-release": "25.0.1",
+    "@semantic-release/exec": "^7.0.0",
+  }, 
+  "release": {"branches": [
+    "main",
+    "master",
+    "beta",
+    "alpha",
+    "next"
+  ],
+  "npmPublish": false,
+  "plugins": [
+    [
+      "@semantic-release/exec",
+      {
+        "successCmd": "echo v${nextRelease.version} > .VERSION"
+      }
+    ]
+  ]
 }
