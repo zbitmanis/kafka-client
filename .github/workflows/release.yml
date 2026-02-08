@@ -9,7 +9,6 @@ name: Release on pull request merge
       - next
       - beta
       - alpha
-      - "*.x"
 permissions:
   contents: read # for checkout
 jobs:
@@ -34,7 +33,7 @@ jobs:
       # details at https://semantic-release.gitbook.io/semantic-release/usage/installation#global-installation
       - run: |
           npx -y semantic-release@25.0.1
-          VERSION=$(cat VERSION)
+          VERSION=$(cat .VERSION)
           echo "Resolved new version set by semantic-release: $VERSION"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
         env:
