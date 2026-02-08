@@ -22,7 +22,7 @@ RUN  mkdir -p /var/lib/kafka/ && \
      addgroup --system --gid 1221 kafka && \
      adduser -S -g kafka -u 1221 -D -G kafka -h /var/lib/kafka/ kafka
 
-ARG KAFKA_RELEASE=2.6.0
+ARG KAFKA_RELEASE=3.9.1
 ARG SCALA_VERSION=2.13
 ARG KAFKA_DOWNLOAD_SOURCE=https://downloads.apache.org/kafka/
 
