@@ -36,7 +36,6 @@ jobs:
           VERSION=$(cat .VERSION)
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.SEMANTIC_RELEASE_BOT_NPM_TOKEN }}
       - name: Export version
         id: export_version
         shell: bash
@@ -86,10 +85,15 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
 
-      - name: Build and push
+      - name: Build and push container image
         uses: docker/build-push-action@v6
         with:
           platforms: linux/amd64,linux/arm64
-          load: true
-          tags: ${{ vars.DOCKERHUB_USERNAME }}/${{ vars.DOCKERHUB_REGISTRY }}:${{ needs.release.outputs.version }}
+          push: true
+          tags: |
+           ${{ vars.DOCKERHUB_USERNAME }}/${{ vars.DOCKERHUB_REGISTRY }}:${{ needs.release.outputs.version }}
+           ${{ vars.DOCKERHUB_USERNAME }}/${{ vars.DOCKERHUB_REGISTRY }}:${{ needs.release.outputs.version }}-amd64
+           ${{ vars.DOCKERHUB_USERNAME }}/${{ vars.DOCKERHUB_REGISTRY }}:${{ needs.release.outputs.version }}-arm64
+           ${{ vars.DOCKERHUB_USERNAME }}/${{ vars.DOCKERHUB_REGISTRY }}:latest
+
       
