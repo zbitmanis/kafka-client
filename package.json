@@ -3,9 +3,10 @@
   "private": true,
   "devDependencies": {
     "semantic-release": "25.0.1",
-    "@semantic-release/exec": "^7.0.0",
+    "@semantic-release/exec": "^7.0.0"
   }, 
-  "release": {"branches": [
+  "release": {
+   "branches": [
     "main",
     "master",
     "beta",
@@ -21,4 +22,5 @@
       }
     ]
   ]
+  }
 }
