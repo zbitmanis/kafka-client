@@ -41,6 +41,9 @@ jobs:
         id: export_version
         shell: bash
         run: |
+          if [ -f .VERSION ]; then
+            VERSION="$(cat .VERSION)"
+          fi
           if [ -n "${VERSION:-}" ]; then
             echo "Resolved new version set by semantic-release: $VERSION"
             VERSION="${VERSION#v}"
